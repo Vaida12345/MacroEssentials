@@ -42,7 +42,7 @@ extension DiagnosticsError {
                                          node: SwiftSyntax.AttributeSyntax,
                                          message: String
     ) -> DiagnosticsError {
-        if let declarationIndex = declaration.attributes.firstIndex(of: .init(node)) {
+        if let declarationIndex = declaration.attributes.firstIndex(where: { $0.description == node.description }) {
             return DiagnosticsError(message, highlighting: node, 
                                     replacing: declaration.attributes, message: "Remove `\(node.attributeName)`") { replacement in
                 replacement.remove(at: declarationIndex)

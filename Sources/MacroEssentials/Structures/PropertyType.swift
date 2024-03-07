@@ -24,6 +24,9 @@ public enum PropertyType: Equatable {
     case staticVariable
     
     
+    public var isStatic: Bool { self == .staticConstant || self == .staticVariable }
+    
+    
     public init(of syntax: VariableDeclSyntax) {
         if syntax.modifiers.contains(where: { $0.name.tokenKind == .keyword(.static) }) {
             switch syntax.bindingSpecifier.tokenKind {

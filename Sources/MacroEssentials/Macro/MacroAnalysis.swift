@@ -12,22 +12,7 @@ import SwiftSyntaxMacros
 import SwiftDiagnostics
 
 
-/// A set of semantic analysis methods. Used to distinguish from the literal syntax.
-///
-/// Do not use this struct directly, use the ``Macro/analysis`` attribute.
-public struct MacroAnalysis<M: Macro> {
-    
-}
-
-
 extension Macro {
-    
-    public static var analysis: MacroAnalysis<Self> { MacroAnalysis() }
-    
-}
-
-
-extension MacroAnalysis {
     
     /// Applies map to every member, ie, properties to a Data Type.
     ///
@@ -40,7 +25,8 @@ extension MacroAnalysis {
     /// - term variable: Each property, *binding* itself.
     /// - term decl: The declaration in which the `variable` is defined.
     /// - term name: The shorthand for `variable` name.
-    public static func memberwiseMap<T>(for declaration: some SwiftSyntax.DeclGroupSyntax,
+    /// - term type: The property type
+    public static func _memberwiseMap<T>(for declaration: some SwiftSyntax.DeclGroupSyntax,
                                         handler: (_ variable: PatternBindingListSyntax.Element, _ decl: VariableDeclSyntax, _ name: String, _ type: PropertyType) throws -> T?
     ) rethrows -> [T] {
         let lines: [[T]] = try declaration.memberBlock.members.map { member in
@@ -65,7 +51,7 @@ extension MacroAnalysis {
     ///   - decl: The second field of `memberwiseMap`
     ///   - name: The third field of `memberwiseMap`
     ///   - declaration: The main declaration
-    public static func getType(for variable: PatternBindingSyntax, decl: VariableDeclSyntax, name: String, of declaration: some SyntaxProtocol) throws -> any TypeSyntaxProtocol {
+    public static func _getType(for variable: PatternBindingSyntax, decl: VariableDeclSyntax, name: String, of declaration: some SyntaxProtocol) throws -> any TypeSyntaxProtocol {
         do {
             return try variable.analysis.inferredType
         } catch let error as SemanticAnalysis<ExprSyntax>.InferTypeError {

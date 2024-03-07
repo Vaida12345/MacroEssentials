@@ -9,12 +9,12 @@ import Foundation
 import SwiftSyntax
 
 
-extension SemanticAnalysis where Syntax: TypeSyntaxProtocol {
+extension TypeSyntaxProtocol {
     
     /// Whether it is an optional class.
     public var isOptional: Bool {
-        if syntax.is(OptionalTypeSyntax.self) { return true }
-        if let syntax = syntax.as(IdentifierTypeSyntax.self), syntax.name.text == "Optional" { return true }
+        if self.is(OptionalTypeSyntax.self) { return true }
+        if let syntax = self.as(IdentifierTypeSyntax.self), syntax.name.text == "Optional" { return true }
         
         return false
     }

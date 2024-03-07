@@ -31,4 +31,3 @@ You can add this framework as a dependency to your Xcode project by clicking Fil
 ### Performing Analysis
 
 - ``SemanticAnalysis``
-- ``MacroAnalysis``
