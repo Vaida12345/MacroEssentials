@@ -5,19 +5,19 @@ import PackageDescription
 
 let package = Package(
     name: "MacroEssentials",
-    products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "MacroEssentials",
-            targets: ["MacroEssentials"]),
-    ],
-    targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "MacroEssentials"),
-        .testTarget(
-            name: "MacroEssentialsTests",
-            dependencies: ["MacroEssentials"]),
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v10_15)
+    ], products: [
+        .library(name: "MacroEssentials", targets: ["MacroEssentials"]),
+    ], dependencies: [
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0")
+    ], targets: [
+        .target(name: "MacroEssentials", dependencies: [
+            .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+            .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+            .product(name: "SwiftSyntaxBuilder", package: "swift-syntax")
+        ]),
+        .testTarget(name: "MacroEssentialsTests", dependencies: ["MacroEssentials"]),
     ]
 )
