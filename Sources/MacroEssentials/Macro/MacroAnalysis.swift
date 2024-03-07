@@ -91,4 +91,30 @@ extension Macro {
         }
     }
     
+    
+    /// returns whether the declaration has the attribute (ie, macro) of the given name.
+    ///
+    /// ```swift
+    /// @codable
+    /// class Model { }
+    /// ```
+    /// has the attribute of `codable`.
+    public static func _has(attribute: String, declaration: some SwiftSyntax.DeclGroupSyntax) -> Bool {
+        declaration.attributes.contains(where: { $0.as(AttributeSyntax.self)?.attributeName.as(IdentifierTypeSyntax.self)?.name.text == attribute })
+    }
+    
+    /// returns whether the declaration has the inheritance of the given name.
+    ///
+    /// ```swift
+    /// class Model: Codable { }
+    /// ```
+    /// has the inheritance of `Codable`.
+    public static func _has(inheritance: String, declaration: some SwiftSyntax.DeclGroupSyntax) -> Bool {
+        if let inheritedTypes = declaration.inheritanceClause?.inheritedTypes {
+            return inheritedTypes.contains(where: { $0.type.as(IdentifierTypeSyntax.self)?.name.text == inheritance })
+        } else {
+            return false
+        }
+    }
+    
 }
