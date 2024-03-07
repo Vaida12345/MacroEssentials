@@ -10,6 +10,7 @@ import SwiftSyntax
 import SwiftSyntaxMacros
 
 
+/// The type of a property to a data structure.
 public enum PropertyType: Equatable {
     
     case storedConstant

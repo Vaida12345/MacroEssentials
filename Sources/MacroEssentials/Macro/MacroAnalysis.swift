@@ -12,6 +12,9 @@ import SwiftSyntaxMacros
 import SwiftDiagnostics
 
 
+/// A set of semantic analysis methods. Used to distinguish from the literal syntax.
+///
+/// Do not use this struct directly, use the ``Macro/analysis`` attribute.
 public struct MacroAnalysis<M: Macro> {
     
 }
