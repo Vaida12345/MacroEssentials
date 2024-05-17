@@ -140,6 +140,13 @@ extension SemanticAnalysis where Syntax == ExprSyntax {
             
             // The `let a = call()` case
             if let closure = syntax.as(FunctionCallExprSyntax.self) {
+                // some shortcuts
+                if let calledExpression = closure.calledExpression.as(DeclReferenceExprSyntax.self) {
+                    if calledExpression.baseName.isEqual(to: "UUID") {
+                        return IdentifierTypeSyntax(name: "UUID")
+                    }
+                }
+                
                 throw InferTypeError.cannotInferFromReference(closure.calledExpression.description)
             }
             
