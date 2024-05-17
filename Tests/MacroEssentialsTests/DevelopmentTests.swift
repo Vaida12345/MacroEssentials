@@ -16,5 +16,16 @@ final class DevelopmentTests: XCTestCase {
         XCTAssertEqual(PropertyType(of: ("var a { 2 }" as DeclSyntax).as(VariableDeclSyntax.self)!), .computed)
         XCTAssertEqual(PropertyType(of: ("var a { get { 2 } }" as DeclSyntax).as(VariableDeclSyntax.self)!), .computed)
     }
+    
+    func testTokenSyntax() throws {
+        
+        let syntax: DeclSyntax = """
+        struct Model { }
+        """
+        dump(syntax)
+        XCTAssert(syntax.as(StructDeclSyntax.self)!.name.isEqual(to: "Model"))
+        XCTAssert(!syntax.as(StructDeclSyntax.self)!.name.isEqual(to: "model"))
+        
+    }
 }
 
