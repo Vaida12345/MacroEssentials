@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,8 +6,11 @@ import PackageDescription
 let package = Package(
     name: "MacroEssentials",
     platforms: [
+        .macOS(.v10_15),
         .iOS(.v13),
-        .macOS(.v10_15)
+        .tvOS(.v13),
+        .watchOS(.v6),
+        .macCatalyst(.v13),
     ], products: [
         .library(name: "MacroEssentials", targets: ["MacroEssentials"]),
     ], dependencies: [
@@ -19,5 +22,5 @@ let package = Package(
             .product(name: "SwiftSyntaxBuilder", package: "swift-syntax")
         ]),
         .testTarget(name: "MacroEssentialsTests", dependencies: ["MacroEssentials"]),
-    ]
+    ], swiftLanguageVersions: [.v6]
 )

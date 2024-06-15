@@ -2,6 +2,18 @@
 
 A collection of tools to build macros.
 
+@Metadata {
+    @PageColor(gray)
+    
+    @SupportedLanguage(swift)
+    
+    @Available(macOS,       introduced: 10.5)
+    @Available(iOS,         introduced: 13.0)
+    @Available(tvOS,        introduced: 13.0)
+    @Available(macCatalyst, introduced: 13.0)
+    @Available(watchOS,     introduced:  6.0)
+}
+
 
 ## Overview
 
