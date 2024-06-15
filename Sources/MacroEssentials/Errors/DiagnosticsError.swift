@@ -36,7 +36,7 @@ extension DiagnosticsError {
     ///
     /// - Parameters:
     ///   - declaration: The main declaration
-    ///   - macroName: The name of the macro, with any attributes. eg, `@codable`.
+    ///   - node: The name of the macro, with any attributes. eg, `@codable`.
     ///   - message: The message indicating why it should be removed.
     public static func shouldRemoveMacro(for declaration: some SwiftSyntax.DeclGroupSyntax,
                                          node: SwiftSyntax.AttributeSyntax,
