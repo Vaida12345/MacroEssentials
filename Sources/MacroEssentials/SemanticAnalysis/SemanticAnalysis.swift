@@ -11,7 +11,7 @@ import SwiftSyntax
 
 /// A set of semantic analysis methods. Used to distinguish from the literal syntax.
 ///
-/// Do not use this struct directly, use the ``SyntaxProtocol/analysis`` attribute.
+/// Do not use this struct directly, use the `analysis` attribute from `SyntaxProtocol`.
 public struct SemanticAnalysis<Syntax: SyntaxProtocol> {
     
     internal let syntax: Syntax
