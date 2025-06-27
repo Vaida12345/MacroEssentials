@@ -16,7 +16,7 @@ extension SemanticAnalysis where Syntax == ExprSyntax {
     ///
     /// - Precondition: the expression is something like `Int(3)`, `[1, 2, nil]`.
     public var inferredType: (any TypeSyntaxProtocol) {
-        get throws {
+        get throws(InferTypeError) {
             // The literal cases
             if syntax.is(IntegerLiteralExprSyntax.self) {
                 return IdentifierTypeSyntax(name: "Int")
@@ -158,26 +158,25 @@ extension SemanticAnalysis where Syntax == ExprSyntax {
         }
     }
     
-    enum InferTypeError: CustomStringConvertible, Error {
-        case unexpectedPattern
-        case closureTooComplicated
-        case cannotInferFromReference(String)
-        case cannotInferBindingWithoutTypeOrInitializer
-        
-        var description: String {
-            switch self {
-            case .unexpectedPattern:
-                "Unexpected pattern caused type inference failure"
-            case .closureTooComplicated:
-                "Closure too complicated to infer type. Please annotate types explicitly"
-            case let .cannotInferFromReference(name):
-                "Type cannot be inferred from referring to `\(name)`"
-            case .cannotInferBindingWithoutTypeOrInitializer:
-                "Cannot infer the type of a binding without type annotation or initializer"
-            }
-        }
-    }
-    
 }
 
 
+enum InferTypeError: CustomStringConvertible, Error {
+    case unexpectedPattern
+    case closureTooComplicated
+    case cannotInferFromReference(String)
+    case cannotInferBindingWithoutTypeOrInitializer
+    
+    var description: String {
+        switch self {
+        case .unexpectedPattern:
+            "Unexpected pattern caused type inference failure"
+        case .closureTooComplicated:
+            "Closure too complicated to infer type. Please annotate types explicitly"
+        case let .cannotInferFromReference(name):
+            "Type cannot be inferred from referring to `\(name)`"
+        case .cannotInferBindingWithoutTypeOrInitializer:
+            "Cannot infer the type of a binding without type annotation or initializer"
+        }
+    }
+}

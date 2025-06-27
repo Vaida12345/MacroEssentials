@@ -14,14 +14,14 @@ extension SemanticAnalysis where Syntax == PatternBindingSyntax {
     
     /// Returns the type associated with the variable.
     public var inferredType: any TypeSyntaxProtocol {
-        get throws {
+        get throws(InferTypeError) {
             // The base case, where the type is explicitly declared.
             if let type = syntax.typeAnnotation?.type {
                 return type
             } else if let initializer = syntax.initializer {
                 return try initializer.value.analysis.inferredType
             } else {
-                throw SemanticAnalysis<ExprSyntax>.InferTypeError.cannotInferBindingWithoutTypeOrInitializer
+                throw InferTypeError.cannotInferBindingWithoutTypeOrInitializer
             }
         }
     }

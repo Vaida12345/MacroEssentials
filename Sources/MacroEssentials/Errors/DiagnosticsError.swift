@@ -35,16 +35,17 @@ extension DiagnosticsError {
     /// Returns the error indicating that the macro should be removed.
     ///
     /// - Parameters:
-    ///   - declaration: The main declaration
+    ///   - attributes: The associated attributes.
     ///   - node: The name of the macro, with any attributes. eg, `@codable`.
     ///   - message: The message indicating why it should be removed.
-    public static func shouldRemoveMacro(for declaration: some SwiftSyntax.DeclGroupSyntax,
-                                         node: SwiftSyntax.AttributeSyntax,
-                                         message: String
+    public static func shouldRemoveMacro(
+        attributes: AttributeListSyntax?,
+        node: SwiftSyntax.AttributeSyntax,
+        message: String
     ) -> DiagnosticsError {
-        if let declarationIndex = declaration.attributes.firstIndex(where: { $0.description == node.description }) {
-            return DiagnosticsError(message, highlighting: node, 
-                                    replacing: declaration.attributes, message: "Remove `\(node.attributeName)`") { replacement in
+        if let attributes, let declarationIndex = attributes.firstIndex(where: { $0.description == node.description }) {
+            return DiagnosticsError(message, highlighting: node,
+                                    replacing: attributes, message: "Remove @\(node.attributeName.trimmed)") { replacement in
                 replacement.remove(at: declarationIndex)
             }
         } else {
