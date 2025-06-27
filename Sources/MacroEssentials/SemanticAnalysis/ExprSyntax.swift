@@ -90,7 +90,7 @@ extension SemanticAnalysis where Syntax == ExprSyntax {
                     return FunctionTypeSyntax(parameters: .init(parameterClause), effectSpecifiers: closure.signature?.effectSpecifiers, returnClause: returnClause)
                 } else if closure.statements.count == 1 {
                     var item: ExprSyntax?
-                    switch closure.statements.first?.as(CodeBlockItemSyntax.self)?.item {
+                    switch closure.statements.first?.item {
                     case let .expr(expr):
                         item = expr
                     case let .stmt(stmt):
@@ -119,15 +119,19 @@ extension SemanticAnalysis where Syntax == ExprSyntax {
                             returnType = try? item.analysis.inferredType
                         } else {
                             hasAwaitSpecifier = false
-                            returnType = try? item.as(ExprSyntax.self)?.analysis.inferredType
+                            returnType = try? ExprSyntax(item).analysis.inferredType
                         }
                     }
                     guard let returnType else { throw InferTypeError.closureTooComplicated }
                     
-                    return FunctionTypeSyntax(parameters: .init(parameterClause),
-                                              effectSpecifiers: TypeEffectSpecifiersSyntax(asyncSpecifier: hasAwaitSpecifier ? .keyword(.async) : nil,
-                                                                                           throwsSpecifier: hasTrySpecifier ? .keyword(.throw) : nil),
-                                              returnClause: ReturnClauseSyntax(type: returnType))
+                    return FunctionTypeSyntax(
+                        parameters: .init(parameterClause),
+                        effectSpecifiers: TypeEffectSpecifiersSyntax(
+                            asyncSpecifier: hasAwaitSpecifier ? .keyword(.async) : nil,
+                            throwsClause: hasTrySpecifier ? ThrowsClauseSyntax(throwsSpecifier: .keyword(.throws)) : nil // the throws is inferred, impossible to know type without a compiler
+                        ),
+                        returnClause: ReturnClauseSyntax(type: returnType)
+                    )
                 } else {
                     throw InferTypeError.closureTooComplicated
                 }

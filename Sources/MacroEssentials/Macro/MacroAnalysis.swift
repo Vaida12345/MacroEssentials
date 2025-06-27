@@ -82,8 +82,8 @@ extension Macro {
                 Diagnostic(node: decl,
                            message: .diagnostic(message: "Type of `\(name)` cannot be inferred, please declare explicitly",
                                                 diagnosticID: "\(Self.self).cannotInferType.\(name)"),
-                           highlights: [decl.cast(Syntax.self)],
-                           notes: [Note(node: variable.cast(Syntax.self), message: .diagnostic(message: error.description, diagnosticID: "\(Self.self).cannotInferType.\(name)"))],
+                           highlights: [Syntax(decl)],
+                           notes: [Note(node: Syntax(variable), message: .diagnostic(message: error.description, diagnosticID: "\(Self.self).cannotInferType.\(name)"))],
                            fixIt: .replace(message: .diagnostic(message: "Declare Type for `\(name)`", diagnosticID: "\(Self.self).cannotInferType.\(name)"),
                                            oldNode: decl,
                                            newNode: replacementNote))

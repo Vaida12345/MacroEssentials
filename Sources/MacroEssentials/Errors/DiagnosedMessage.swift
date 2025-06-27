@@ -25,9 +25,14 @@ public struct DiagnosedMessage: DiagnosticMessage, FixItMessage, NoteMessage {
     
     public var fixItID: SwiftDiagnostics.MessageID { self.id }
     
+    public var noteID: SwiftDiagnostics.MessageID {
+        self.id
+    }
+    
+    
     fileprivate init(message: String, diagnosticID: String, severity: SwiftDiagnostics.DiagnosticSeverity = .error) {
         self.message = message
-        self.id = MessageID(domain: "NucleusMacros", id: diagnosticID)
+        self.id = MessageID(domain: "MacroCollection", id: diagnosticID)
         self.severity = severity
     }
     
