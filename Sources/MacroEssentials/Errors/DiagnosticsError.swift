@@ -9,6 +9,7 @@ import Foundation
 import SwiftDiagnostics
 import SwiftSyntax
 
+
 extension DiagnosticsError {
     
     /// Creates the error with its attributes.
